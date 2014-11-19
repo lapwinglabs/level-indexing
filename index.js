@@ -64,17 +64,17 @@ function index(name){
     }
   };
 
-  this.del = function(key, fn){
+  this.del = function(key, options, fn){
+    var args = normalize(options, fn);
     this.get(key, function(err, value){
       if (err) return fn(err);
       if (!(name in value)) return done();
-
       var prop = value[name];
       sub.del(prop, done);
 
       function done(err){
         if (err) return fn(err);
-        del.call(self, key, fn);
+        del.call(self, key, args.options, fn);
       }
     });
   };
